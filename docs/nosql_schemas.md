@@ -8,9 +8,7 @@
     "name": "string",
     "phoneNumber": "string",
     "pets": [
-        {
-
-        }
+        ObjectId("auto_generated_id"),
     ]
 }
 ```
