@@ -1,0 +1,4 @@
+- [ ]  Complete DAO and DTO
+- [ ] Make Request Handlers
+- [ ] Docker and DockerComposeFile
+- [ ] Mongo Configuration with Mongoose
