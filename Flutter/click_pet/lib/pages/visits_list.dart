@@ -10,13 +10,9 @@ class VisitsList extends StatefulWidget {
 class _VisitsListState extends State<VisitsList> {
   List<Map<String, dynamic>> _visits = [];
 
-  void _loadVisits() async {
-    final db = DBHelper();
-    await db.database; // <-- Ensure DB is initialized before insert
-    final visits = await db.getVisits();
-    setState(() {
-      _visits = visits;
-    });
+  void _loadVisits() {
+    _visits = DBHelper().getVisits();
+    setState(() {});
   }
 
   @override

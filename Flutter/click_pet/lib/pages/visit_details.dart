@@ -38,7 +38,6 @@ class _VisitDetailsState extends State<VisitDetails> {
   void _updateVisit() async {
     if (_formKey.currentState!.validate()) {
       final db = DBHelper();
-      await db.database; // <-- Ensure DB is initialized before insert
       await db.updateVisit(widget.visit['id'], {
         'petOwner': _ownerController.text,
         'phoneNum': _phoneController.text,
@@ -49,6 +48,7 @@ class _VisitDetailsState extends State<VisitDetails> {
         'dosage': _dosageController.text,
         'nextVisitDate': _nextVisitController.text,
       });
+      setState(() {});
       Navigator.pop(context, true);
     }
   }

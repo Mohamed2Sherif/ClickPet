@@ -1,11 +1,14 @@
 import 'package:click_pet/pages/database_helper/db_helper.dart';
 import 'package:click_pet/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DBHelper().database;
+  await Hive.initFlutter(); // ✅ Initialize Hive
+  await DBHelper().initHive(); // ✅ Initialize Hive boxes (database)
   runApp(const MyApp());
 }
 

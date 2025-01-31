@@ -9,19 +9,15 @@ class PetsList extends StatefulWidget {
 class _PetsListState extends State<PetsList> {
   List<Map<String, dynamic>> _pets = [];
 
-  void _loadPets() async {
-    final db = DBHelper();
-    await db.database; // <-- Ensure DB is initialized before insert
-    final pets = await db.getPets();
-    setState(() {
-      _pets = pets;
-    });
+  void _loadVisits() {
+    _pets = DBHelper().getPets();
+    setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
-    _loadPets();
+    _loadVisits();
   }
 
   @override

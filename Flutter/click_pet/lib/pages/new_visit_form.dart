@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import './database_helper/db_helper.dart';
-import 'package:intl/intl.dart';
 
 class NewVisitForm extends StatefulWidget {
   @override
@@ -19,30 +18,36 @@ class _NewVisitFormState extends State<NewVisitForm> {
   final TextEditingController _nextVisitDaysController =
       TextEditingController();
 
+
   void _saveVisit() async {
     if (_formKey.currentState!.validate()) {
-      final db = DBHelper();
-      await db.database; // <-- Ensure DB is initialized before insert
+      try {
+        final db = DBHelper();
 
-      DateTime now = DateTime.now();
-      DateTime nextVisit =
-          now.add(Duration(days: int.parse(_nextVisitDaysController.text)));
+        DateTime now = DateTime.now();
+        DateTime nextVisit =
+            now.add(Duration(days: int.parse(_nextVisitDaysController.text)));
 
-      await db.insertVisit({
-        'petOwner': _ownerController.text,
-        'phoneNum': _phoneController.text,
-        'petType': _petTypeController.text,
-        'petAge': int.parse(_petAgeController.text),
-        'disease': _diseaseController.text,
-        'medicine': _medicineController.text,
-        'dosage': _dosageController.text,
-        'nextVisitDate': nextVisit.toIso8601String(),
-        'visitDate': now.toIso8601String(),
-      });
+        await db.insertVisit({
+          'petOwner': _ownerController.text.trim(),
+          'phoneNum': _phoneController.text.trim(),
+          'petType': _petTypeController.text.trim(),
+          'petAge': int.tryParse(_petAgeController.text) ?? 0, // Prevents crash
+          'disease': _diseaseController.text.trim(),
+          'medicine': _medicineController.text.trim(),
+          'dosage': _dosageController.text.trim(),
+          'nextVisitDate': nextVisit.toIso8601String(),
+          'visitDate': now.toIso8601String(),
+        });
 
-      Navigator.pop(context);
+        setState(() {}); // ✅ Ensures UI refresh
+        Navigator.pop(context);
+      } catch (e) {
+        print("Error saving visit: $e"); // ✅ Debugging error handling
+      }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

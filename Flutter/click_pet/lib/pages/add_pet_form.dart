@@ -12,14 +12,22 @@ class _AddPetFormState extends State<AddPetForm> {
   final TextEditingController _propertiesController = TextEditingController();
 
   void _savePet() async {
-    if (_formKey.currentState!.validate()) {
-      final db = DBHelper();
-      await db.database; // <-- Ensure DB is initialized before insert
-      await db.insertPet({
-        'petType': _petTypeController.text,
-        'properties': _propertiesController.text,
-      });
-      Navigator.pop(context);
+    try {
+      if (_formKey.currentState!.validate()) {
+        final db = DBHelper();
+        await db.insertPet({
+          'petType': _petTypeController.text,
+          'properties': _propertiesController.text,
+        });
+
+        // Refresh UI after saving the pet
+        setState(() {});
+
+        // Close the popup after saving
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      print("Error saving pet: $e"); // ✅ Debugging error handling
     }
   }
 
